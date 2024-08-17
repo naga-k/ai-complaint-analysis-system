@@ -19,6 +19,9 @@ export default function Home() {
         },
         body: JSON.stringify({ input }),
       });
+
+      const data = await response.json();
+      setStatus(data.message);
     } catch (error) {
       console.error('Error submitting data:', error);
       setStatus('Error submitting data.');
