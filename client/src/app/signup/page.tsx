@@ -1,23 +1,29 @@
-'use client';
+"use client";
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import toast, { Toaster } from "react-hot-toast";
+import { createClient } from "@/utils/supabase/client";
 
 export default function Signup() {
   const [form, setForm] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
-  const [status, setStatus] = useState<string>('');
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+
+  const getSupabaseClient = useCallback(() => {
+    return createClient();
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -25,18 +31,45 @@ export default function Signup() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
 
     if (form.password !== form.confirmPassword) {
-      setStatus('Passwords do not match.');
+      toast.error("Passwords do not match.");
+      setIsLoading(false);
       return;
     }
 
-    setStatus('Account created successfully!');
-  };
+    const supabase = getSupabaseClient();
 
-  const handleGoogleSignUp = () => {
-    // do like the oauth here btw
-    console.log('Google Sign-Up');
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: form.email,
+        password: form.password,
+        options: {
+          data: {
+            full_name: `${form.firstName} ${form.lastName}`,
+          },
+        },
+      });
+
+      if (error) throw error;
+
+      if (data.user) {
+        toast.success("Account created successfully!");
+        router.push(`/dashboard/${data.user.id}/text`);
+      } else {
+        throw new Error("Failed to create account. Please try again.");
+      }
+    } catch (error: any) {
+      console.error("Error:", error);
+      toast.error(
+        error.error_description ||
+          error.message ||
+          "An error occurred during signup."
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -110,16 +143,8 @@ export default function Signup() {
                 required
               />
             </div>
-            <Button type="submit" className="w-full">
-              Create an Account
-            </Button>
-            <Button
-              variant="outline"
-              className="w-full flex items-center justify-center space-x-2"
-              onClick={handleGoogleSignUp}
-            >
-              <FontAwesomeIcon icon={faGoogle} className="text-lg" />
-              <span>Sign Up with Google</span>
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? "Creating Account..." : "Create an Account"}
             </Button>
           </form>
           <div className="mt-4 text-center text-sm">
@@ -128,7 +153,6 @@ export default function Signup() {
               Log In
             </Link>
           </div>
-          {status && <p className="text-sm text-red-400">{status}</p>}
         </div>
       </div>
       <div className="hidden lg:block bg-muted">
@@ -137,9 +161,11 @@ export default function Signup() {
           alt="Signup Image"
           width="1920"
           height="1080"
+          priority={true}
           className="h-screen w-full object-cover dark:brightness-[0.2] dark:grayscale"
         />
       </div>
+      <Toaster position="top-center" />
     </div>
   );
 }

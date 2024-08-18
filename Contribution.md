@@ -25,7 +25,7 @@ Before you begin, ensure you have the following installed on your system:
    - Navigate to the `client` directory
    - Create a `.env.local` file with the following content:
      ```
-     NEXT_PUBLIC_API_URL=http://localhost:5000
+     NEXT_PUBLIC_API_URL=http://localhost:4000
      ```
 
    For the server:
@@ -57,8 +57,8 @@ Once the application is running:
    - You should see the client application running
 
 2. Access the Flask server:
-   - The server API is available at `http://localhost:5000`
-   - You can test it by navigating to `http://localhost:5000` in your browser or using a tool like curl or Postman
+   - The server API is available at `http://localhost:4000`
+   - You can test it by navigating to `http://localhost:4000` in your browser or using a tool like curl or Postman
 
 ## Development Workflow
 
