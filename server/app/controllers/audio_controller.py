@@ -40,12 +40,12 @@ def analyze_audio_complaint():
         analysis_result['transcribed_text'] = transcribed_text
         print(analysis_result)
         
-        saved_data = save_audio_analysis(user_id, analysis_result)
+        # saved_data = save_audio_analysis(user_id, analysis_result)
         
-        print(saved_data)
+        # print(saved_data)
         
-        if not saved_data:
-            return AudioViews.error_response("Failed to save analysis to the database", 500)
+        # if not saved_data:
+        #     return AudioViews.error_response("Failed to save analysis to the database", 500)
         
         return AudioViews.success_response(analysis_result)
     except Exception as e:
