@@ -32,11 +32,11 @@ export default function AudioInput() {
     }
 
     try {
-      const response = await fetch('url-todo', {
+      const response = await fetch('https://shiny-adventure-gxjq5x6xrj4f9x4w-4000.app.github.dev/upload', {
         method: 'POST',
         body: formData,
       });
-
+  
       const data = await response.json();
       setStatus(data.message);
     } catch (error) {
