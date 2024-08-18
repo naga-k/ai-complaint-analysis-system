@@ -2,8 +2,8 @@ from flask import Blueprint, request
 from app.models.complaint import Complaint
 from app.views.complaint_views import ComplaintViews
 from app.services.auth_service import get_authenticated_user_id
+from app.services.openai_service import analyze_text_with_gpt, transcribe_audio
 from app.utils.vision_processing import process_images_to_base64, analyze_images
-from server.app.services.openai_service import analyze_text_with_gpt, transcribe_audio
 
 complaint_blueprint = Blueprint('complaint', __name__)
 
