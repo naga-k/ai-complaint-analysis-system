@@ -22,11 +22,11 @@ def submit_complaint():
 @complaint_blueprint.route('/analyze', methods=['POST'])
 def analyze_complaint():
     data = request.json
-    if not data or 'complaint_text' not in data:
+    if not data or 'input' not in data: #was complaint_text
         return ComplaintViews.error_response("No complaint text provided")
 
     try:
-        analysis_result = analyze_text_with_gpt(data['complaint_text'])
+        analysis_result = analyze_text_with_gpt(data['input'])
         return ComplaintViews.complaint_response(analysis_result)
     except Exception as e:
         return ComplaintViews.error_response(str(e), 500)
