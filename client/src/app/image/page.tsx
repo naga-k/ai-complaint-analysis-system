@@ -53,7 +53,7 @@ export default function ImageInput() {
           </label>
           {imageFile && (
             <div className="mt-4">
-              <img src={imageURL} alt={imageFile.name} className="w-full h-auto max-w-md rounded-md shadow-md" />
+              <img src={imageURL} alt={imageFile.name} className="w-full h-auto max-w-lg rounded-md shadow-md" />
               <p className="text-gray-700 mt-2">{imageFile.name}</p>
             </div>
           )}

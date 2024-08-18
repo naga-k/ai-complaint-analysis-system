@@ -53,7 +53,7 @@ export default function VideoInput() {
           </label>
           {videoFile && (
             <div className="mt-4">
-              <video controls src={videoURL} className="w-full h-auto max-w-md rounded-md shadow-md" />
+              <video controls src={videoURL} className="w-full h-auto max-w-lg rounded-md shadow-md" />
               <p className="text-gray-700 mt-2">{videoFile.name}</p>
             </div>
           )}
