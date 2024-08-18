@@ -1,22 +1,4 @@
 services:
-  postgres:
-    container_name: postgres
-    image: postgres:16.3-alpine
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    ports:
-      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
-    env_file:
-      - .env
-    restart: always
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-      - ./server/db-init:/docker-entrypoint-initdb.d
-    networks:
-      - default
-
   server:
     container_name: python_server
     build:
@@ -28,8 +10,6 @@ services:
       - ./server:/app
     env_file:
       - ./server/.env
-    depends_on:
-      - postgres
     networks:
       - default
 
@@ -58,6 +38,3 @@ networks:
   default:
     name: ai-complaint-analysis
     driver: bridge
-
-volumes:
-  pgdata:

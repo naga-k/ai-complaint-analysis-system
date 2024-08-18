@@ -31,5 +31,8 @@ USER appuser
 # Expose the port the app runs on
 EXPOSE 5000
 
-# Run the application
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+# Set environment variable for Flask
+ENV FLASK_APP=run.py
+
+# Run the application using gunicorn
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "run:app"]
