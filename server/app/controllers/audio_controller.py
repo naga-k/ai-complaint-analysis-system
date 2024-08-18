@@ -4,13 +4,14 @@ from app.views.complaint_views import ComplaintViews
 from app.services.openai_service import analyze_text_with_gpt
 from app.services.audio_service import transcribe_audio
 from app.views.audio_views import AudioViews
+from ..services.supabase_service import save_audio_analysis
 from ..extensions import init_extensions
 
 audio_blueprint = Blueprint('audio', __name__)
 
 @audio_blueprint.route('/analyze_audio', methods=['POST'])
 def analyze_audio_complaint():
-    init_extensions()
+    # init_extensions()
     
     if 'audio' not in request.files:
         return ComplaintViews.error_response("No audio file provided")
@@ -37,6 +38,14 @@ def analyze_audio_complaint():
         
         # Include the transcribed text in the response
         analysis_result['transcribed_text'] = transcribed_text
+        print(analysis_result)
+        
+        # saved_data = save_audio_analysis(user_id, analysis_result)
+        
+        # print(saved_data)
+        
+        # if not saved_data:
+        #     return AudioViews.error_response("Failed to save analysis to the database", 500)
         
         return AudioViews.success_response(analysis_result)
     except Exception as e:
