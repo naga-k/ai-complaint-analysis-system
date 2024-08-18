@@ -12,7 +12,7 @@ export default function Home() {
     e.preventDefault();
 
     try {
-      const response = await fetch("url-todo", {
+      const response = await fetch("http://localhost:4000/complaint/analyze", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

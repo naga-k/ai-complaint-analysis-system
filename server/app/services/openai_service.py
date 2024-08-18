@@ -1,4 +1,4 @@
-from app.extensions import openai_client
+from app.extensions import openai
 import re
 
 # The prompt provided to the GPT-4 model
@@ -70,8 +70,8 @@ def extract_key_issues(analysis):
 
 def analyze_text_with_gpt(text):
     try:
-        # Send the complaint text to the GPT-4 model with the provided prompt
-        response = openai_client.ChatCompletion.create(
+        # Send the complaint text to GPT with the prompt
+        response = openai.chat.completions.create(
             model="gpt-4",
             messages=[
                 {"role": "system", "content": prompt},
@@ -79,7 +79,7 @@ def analyze_text_with_gpt(text):
             ]
         )
         
-        analysis = response.choices[0].message['content']
+        analysis = response.choices[0].message.content
         print(analysis)
         
         # Call helper functions to extract required information
@@ -87,7 +87,7 @@ def analyze_text_with_gpt(text):
         summary = extract_summary(analysis)
         key_issues = extract_key_issues(analysis)
 
-        # Return a structured output
+        # Return the output
         return {
             "category": category_info["category"],
             "sub_category": category_info["sub_category"],
