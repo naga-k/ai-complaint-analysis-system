@@ -8,6 +8,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import Link from "next/link";
 
 export default function LandingPage() {
   return (
@@ -33,7 +34,7 @@ export default function LandingPage() {
               AI-powered tool.
             </p>
             <Button className="bg-yellow-500 hover:bg-yellow-600 text-black py-3 px-6 rounded-lg">
-              <a href="/signup">Get Started</a>
+              <Link href="/login">Get Started</Link>
             </Button>
           </div>
         </div>
@@ -96,7 +97,7 @@ export default function LandingPage() {
                     User-Friendly Interface
                   </h3>
                   <p className="text-lg">
-                    Enjoy a clean and intuitive interface that’s easy to
+                    Enjoy a clean and intuitive interface that&apos;s easy to
                     navigate.
                   </p>
                 </div>
@@ -177,7 +178,7 @@ export default function LandingPage() {
             solutions.
           </p>
           <Button className="bg-black hover:bg-gray-800 text-white py-3 px-6 rounded-lg">
-            <a href="/signup">Get Started</a>
+            <Link href="/login">Get Started</Link>
           </Button>
         </div>
       </section>
