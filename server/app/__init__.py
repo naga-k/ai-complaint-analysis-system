@@ -1,18 +1,15 @@
 from flask import Flask
-from config import config
+# from config import Config
 from .extensions import init_extensions
+from .controllers.complaint_controller import complaint_blueprint
+from .controllers.video_controller import video_bp
 
-def create_app(config_name='default'):
+def create_app():
     app = Flask(__name__)
-    
-    app.config.from_object(config[config_name])
-    
-    init_extensions(app)
-    
-    from .controllers.complaint_controller import complaint_blueprint
-    from .controllers.hello_controller import hello_blueprint  # Add this line
+
+    init_extensions()
     
     app.register_blueprint(complaint_blueprint, url_prefix='/complaint')
-    app.register_blueprint(hello_blueprint) 
+    app.register_blueprint(video_bp, url_prefix='/video')
     
     return app
