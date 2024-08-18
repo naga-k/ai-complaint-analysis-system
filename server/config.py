@@ -9,6 +9,7 @@ class Config:
     SUPABASE_KEY = os.getenv('SUPABASE_ANON_KEY')
     OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
     GOOGLE_CLOUD_PROJECT = os.getenv('GOOGLE_CLOUD_PROJECT')
+    GOOGLE_CLOUD_LOCATION = os.getenv('GOOGLE_CLOUD_LOCATION', 'us-central1')
     
     @classmethod
     def get(cls, key, default=None):
