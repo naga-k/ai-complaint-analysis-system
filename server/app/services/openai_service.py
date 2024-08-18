@@ -72,7 +72,7 @@ def analyze_text_with_gpt(text):
     try:
         # Send the complaint text to GPT with the prompt
         response = openai.chat.completions.create(
-            model="gpt-4",
+            model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": prompt},
                 {"role": "user", "content": f"Analyze this complaint: {text}"}
