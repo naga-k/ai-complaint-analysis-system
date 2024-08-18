@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, request
 from . import main
 from .. import supabase
 from . import main
