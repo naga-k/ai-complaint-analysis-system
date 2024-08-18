@@ -1,24 +1,18 @@
 from flask import Flask
-from supabase import create_client, Client
 from config import config
-import openai
-
-supabase: Client = None
+from .extensions import init_extensions
 
 def create_app(config_name='default'):
     app = Flask(__name__)
     
-    # Load the configuration
     app.config.from_object(config[config_name])
     
-    # Initialize Supabase client
-    global supabase
-    supabase = create_client(app.config['SUPABASE_URL'], app.config['SUPABASE_KEY'])
+    init_extensions(app)
     
-    openai.api_key = app.config['OPENAI_API_KEY']
+    from .controllers.complaint_controller import complaint_blueprint
+    from .controllers.hello_controller import hello_blueprint  # Add this line
     
-    # Register blueprints
-    from .main import main as main_blueprint
-    app.register_blueprint(main_blueprint)
+    app.register_blueprint(complaint_blueprint, url_prefix='/complaint')
+    app.register_blueprint(hello_blueprint) 
     
     return app
