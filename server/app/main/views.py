@@ -1,8 +1,6 @@
 from flask import jsonify, request
 from . import main
 from .. import supabase
-from . import main
-from .. import supabase
 from ..services.text_processing import process_complaint
 
 @main.route('/')
