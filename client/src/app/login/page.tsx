@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 export default function Login() {
   const [form, setForm] = useState({
-    email: '',
-    password: '',
+    email: "",
+    password: "",
   });
-  const [status, setStatus] = useState<string>('');
+  const [status, setStatus] = useState<string>("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -23,12 +23,12 @@ export default function Login() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setStatus('Login successful!');
+    setStatus("Login successful!");
   };
 
   const handleGoogleLogin = () => {
     // do auth here too
-    console.log('Google Login');
+    console.log("Google Login");
   };
 
   return (
@@ -69,14 +69,14 @@ export default function Login() {
             <Button type="submit" className="w-full">
               Login
             </Button>
-            <Button
+            {/* <Button
               variant="outline"
               className="w-full flex items-center justify-center space-x-2"
               onClick={handleGoogleLogin}
             >
               <FontAwesomeIcon icon={faGoogle} className="text-lg" />
               <span>Login with Google</span>
-            </Button>
+            </Button> */}
           </form>
           <div className="mt-4 text-center text-sm">
             Don&apos;t have an account?{" "}

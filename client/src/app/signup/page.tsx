@@ -1,23 +1,21 @@
-'use client';
+"use client";
 
-import { useState, FormEvent } from 'react';
+import { useState, FormEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 
 export default function Signup() {
   const [form, setForm] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
-  const [status, setStatus] = useState<string>('');
+  const [status, setStatus] = useState<string>("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -27,16 +25,11 @@ export default function Signup() {
     e.preventDefault();
 
     if (form.password !== form.confirmPassword) {
-      setStatus('Passwords do not match.');
+      setStatus("Passwords do not match.");
       return;
     }
 
-    setStatus('Account created successfully!');
-  };
-
-  const handleGoogleSignUp = () => {
-    // do like the oauth here btw
-    console.log('Google Sign-Up');
+    setStatus("Account created successfully!");
   };
 
   return (
@@ -112,14 +105,6 @@ export default function Signup() {
             </div>
             <Button type="submit" className="w-full">
               Create an Account
-            </Button>
-            <Button
-              variant="outline"
-              className="w-full flex items-center justify-center space-x-2"
-              onClick={handleGoogleSignUp}
-            >
-              <FontAwesomeIcon icon={faGoogle} className="text-lg" />
-              <span>Sign Up with Google</span>
             </Button>
           </form>
           <div className="mt-4 text-center text-sm">
