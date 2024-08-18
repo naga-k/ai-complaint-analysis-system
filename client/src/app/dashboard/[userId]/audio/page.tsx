@@ -16,6 +16,8 @@ export default function AudioInput() {
   // const audioChunksRef = useRef<Blob[]>([]);
   const params = useParams();
 
+  console.log(audioFile);
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
