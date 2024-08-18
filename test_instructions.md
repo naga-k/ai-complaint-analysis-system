@@ -1,5 +1,10 @@
+## update packages
 pip install -r requirements.txt
-flask run --host=0.0.0.0 --port=4000Test Cases
+flask run --host=0.0.0.0 --port=4000 
+
+
+## test
+Test Cases
 Analyze Audio Complaint:
 
 This test case uploads a fake audio file and checks if the response contains the expected keys: category, sub_category, summary, and key_issues.

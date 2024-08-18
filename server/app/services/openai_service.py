@@ -106,8 +106,8 @@ def analyze_images(base64_images):
             gpt_response = openai.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=[
-                    {"role": "system", "content": "You are an AI that specializes in analyzing customer complaints. Use the base64 encoded image to generate the following details."},
-                    {"role": "user", "content": f"Base64 encoded image: {base64_image}"}
+                    {"role": "system", "content": prompt},
+                    {"role": "user", "content": f"Analyze encoded image: {base64_image}"}
                 ]
             )
             
@@ -130,35 +130,6 @@ def analyze_images(base64_images):
     
     return analysis_results
 
-
-def analyze_image(base64_image):
-    try:
-        # Call OpenAI API with the base64 encoded image directly in the prompt
-        gpt_response = openai.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[
-                {"role": "system", "content": "You are an AI that specializes in analyzing customer complaints. Use the base64 encoded image to generate the following details."},
-                {"role": "user", "content": f"Base64 encoded image: {base64_image}"}
-            ]
-        )
-        
-        analysis = gpt_response.choices[0].message.content
-        
-        # Clean the data
-        category_info = extract_category(analysis)
-        summary = extract_summary(analysis)
-        key_issues = extract_key_issues(analysis)
-        
-        return {
-            "category": category_info["category"],
-            "sub_category": category_info["sub_category"],
-            "summary": summary,
-            "key_issues": key_issues
-        }
-    
-    except Exception as e:
-        raise Exception(f"Error in analyzing image: {str(e)}")
-
 def transcribe_audio(file_path, language="en"):
     # Open the audio file
     with open(file_path, "rb") as audio_file:
@@ -172,3 +143,23 @@ def transcribe_audio(file_path, language="en"):
     # Extract and return the text from the response
     transcript = response.text
     return transcript.strip()
+
+def generate_video_description(base64Frames):
+    PROMPT_MESSAGES = [
+        {
+            "role": "user",
+            "content": [
+                prompt + "\n\nThese are frames from a video that I want to upload. Generate a compelling description that I can upload along with the video.",
+                *map(lambda x: {"image": x, "resize": 768}, base64Frames[0::50]),
+            ],
+        },
+    ]
+    params = {
+        "model": "gpt-4o",
+        "messages": PROMPT_MESSAGES,
+        "max_tokens": 200,
+    }
+
+    result = openai.chat.completions.create(**params)
+    description = result.choices[0].message.content
+    return description

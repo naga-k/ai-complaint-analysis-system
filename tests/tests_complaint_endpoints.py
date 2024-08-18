@@ -5,8 +5,6 @@ from werkzeug.datastructures import FileStorage
 from io import BytesIO
 import os
 
-# Assuming the Flask app is created in app.py
-from app import create_app
 
 class ComplaintEndpointsTestCase(unittest.TestCase):
     def setUp(self):

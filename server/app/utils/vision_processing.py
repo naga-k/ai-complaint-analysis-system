@@ -1,48 +1,46 @@
-from flask import Blueprint, request
-from app.models.complaint import Complaint
-from app.views.complaint_views import ComplaintViews
-from app.services.auth_service import get_authenticated_user_id
-from app.services.openai_service import analyze_text_with_gpt, transcribe_audio
-from app.utils.vision_processing import process_images_to_base64, analyze_images
+import base64
+import os
+import cv2
 
-complaint_blueprint = Blueprint('complaint', __name__)
 
-@complaint_blueprint.route('/submit', methods=['POST'])
-def submit_complaint():
-    user_id = get_authenticated_user_id()
-    if not user_id:
-        return ComplaintViews.error_response("Authentication required", 401)
-    
-    try:
-        complaint_data = request.json
-        result = Complaint.create(user_id, complaint_data)
-        return ComplaintViews.complaint_response(result, "Complaint submitted successfully")
-    except Exception as e:
-        return ComplaintViews.error_response(str(e), 500)
+def process_images_to_base64(images):
+    base64_images = []
+    for image in images:
+        image_data = image.read()
+        base64_image = base64.b64encode(image_data).decode('utf-8')
+        base64_images.append(base64_image)
+    return base64_images
 
-@complaint_blueprint.route('/analyze_images', methods=['POST'])
-def analyze_complaint_images():
-    if 'images' not in request.files:
-        return ComplaintViews.error_response("No images provided", 400)
-    
-    images = request.files.getlist('images')
-    try:
-        base64_images = process_images_to_base64(images)
-        analysis_results = analyze_images(base64_images)
-        
-        return ComplaintViews.complaint_response(analysis_results, "Image analysis done")
-    except Exception as e:
-        return ComplaintViews.complaint_response(str(e), 500)
 
-@complaint_blueprint.route('/analyze_audio', methods=['POST'])
-def analyze_audio_complaint():
-    if 'file' not in request.files:
-        return ComplaintViews.error_response("No audio file provided", 400)
-    
-    audio_file = request.files['file']
-    try:
-        transcription = transcribe_audio(audio_file)
-        analysis_result = analyze_text_with_gpt(transcription)
-        return ComplaintViews.complaint_response(analysis_result, "Audio analysis done")
-    except Exception as e:
-        return ComplaintViews.error_response(str(e), 500)
+def process_video(video_file):
+    video_path = os.path.join('/tmp', video_file.filename)
+    video_file.save(video_path)
+
+    video = cv2.VideoCapture(video_path)
+    base64Frames = []
+    while video.isOpened():
+        success, frame = video.read()
+        if not success:
+            break
+        _, buffer = cv2.imencode(".jpg", frame)
+        base64Frames.append(base64.b64encode(buffer).decode("utf-8"))
+
+    video.release()
+    return base64Frames
+
+def process_video(video_file):
+    video_path = os.path.join('/tmp', video_file.filename)
+    video_file.save(video_path)
+
+    video = cv2.VideoCapture(video_path)
+    base64Frames = []
+    while video.isOpened():
+        success, frame = video.read()
+        if not success:
+            break
+        _, buffer = cv2.imencode(".jpg", frame)
+        base64Frames.append(base64.b64encode(buffer).decode("utf-8"))
+
+    video.release()
+    return base64Frames
+
