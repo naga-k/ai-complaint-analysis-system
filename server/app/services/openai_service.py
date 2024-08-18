@@ -4,8 +4,8 @@ import re
 # The prompt provided to the GPT-4 model
 prompt = """You are an AI that specializes in analyzing customer complaints. You will be provided with JSON data that contains multiple customer complaints, each identified by a unique complaint ID. 
 Your task is to:
-1. Categorize each complaint into one of the predefined main categories.
-2. Sub-categorize each complaint under the corresponding main category.
+1. Categorize each complaint into a main category.
+2. Sub-categorize each complaint to a sub category under the corresponding main category.
 3. If the data is not a complaint, return a message stating that it is not a complaint and Category should be N/A and Sub Category should be N/A as well.
 4. Generate a summary of the complaint.
 5. Generate Key issues from the complaint.
