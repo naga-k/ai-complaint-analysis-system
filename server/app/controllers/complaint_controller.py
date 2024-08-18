@@ -3,6 +3,7 @@ from app.models.complaint import Complaint
 from app.views.complaint_views import ComplaintViews
 from app.services.auth_service import get_authenticated_user_id
 from app.services.openai_service import analyze_text_with_gpt
+from app.services.openai_service import analyze_image
 
 complaint_blueprint = Blueprint('complaint', __name__)
 
@@ -30,3 +31,16 @@ def analyze_complaint():
         return ComplaintViews.complaint_response(analysis_result)
     except Exception as e:
         return ComplaintViews.error_response(str(e), 500)
+    
+#@complaint_blueprint.route('analyze_image', methods=['POST'])
+#def analyze_complaint_image():
+    #if 'image' not in request.files:
+    #    return ComplaintViews.error_response("No image provided", 400)
+    
+    #image_file = request.files['image']
+    #try:
+    #    analysis_result = analyze_image(image_file)
+    #    print(analysis_result)
+    #    return ComplaintViews.complaint_response(analysis_result, "Image analysis done")
+    #except Exception as e:
+    #    return ComplaintViews.complaint_response(str(e), 500)
