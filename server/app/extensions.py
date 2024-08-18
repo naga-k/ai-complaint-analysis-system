@@ -1,10 +1,13 @@
 from supabase import create_client, Client
 import openai 
+from config import Config
 
 supabase: Client = None
 openai_client = None
 
-def init_extensions(app):
+config = Config()
+
+def init_extensions():
     global supabase, openai_client
-    supabase = create_client(app.config['SUPABASE_URL'], app.config['SUPABASE_KEY'])
-    openai.api_key = app.config['OPENAI_API_KEY']
+    supabase = create_client(config.SUPABASE_URL, config.SUPABASE_KEY)
+    openai.api_key = config.OPENAI_API_KEY

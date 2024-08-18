@@ -80,7 +80,6 @@ def analyze_text_with_gpt(text):
         )
         
         analysis = response.choices[0].message.content
-        print(analysis)
         
         # Call helper functions to extract required information
         category_info = extract_category(analysis)
@@ -138,18 +137,4 @@ def analyze_text_with_gpt(text):
 
     #except Exception as e:
         #raise Exception(f"Error in analyzing image: {str(e)}")
-      
-def transcribe_audio(file_path, language="en"):
-    # Open the audio file
-    with open(file_path, "rb") as audio_file:
-        response = openai.audio.transcriptions.create(
-            model="whisper-1",
-            file=audio_file,
-            language=language,
-            response_format="json"
-        )
-
-    # Extract and return the text from the response
-    transcript = response.text
-    return transcript.strip()
 
