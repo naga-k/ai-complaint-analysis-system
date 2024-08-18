@@ -3,7 +3,7 @@ import openai
 def process_complaint(complaint_text):
     try:
         response = openai.ChatCompletion.create(
-            model="gpt-4",
+            model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": "You are an AI assistant that analyzes customer complaints. Categorize the complaint, summarize it, and extract key issues."},
                 {"role": "user", "content": f"Analyze this complaint: {complaint_text}"}
