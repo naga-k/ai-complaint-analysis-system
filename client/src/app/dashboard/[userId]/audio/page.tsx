@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 // import { faMicrophone, faStop } from "@fortawesome/free-solid-svg-icons";
 import Header from "@/components/ui/header";
 import toast, { Toaster } from "react-hot-toast";
+import { useParams } from "next/navigation";
 
 export default function AudioInput() {
   const [audioFile, setAudioFile] = useState<File | null>(null);
@@ -13,6 +14,7 @@ export default function AudioInput() {
   const [audioURL, setAudioURL] = useState<string | null>(null);
   // const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   // const audioChunksRef = useRef<Blob[]>([]);
+  const params = useParams();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,6 +32,7 @@ export default function AudioInput() {
       const blob = await response.blob();
       formData.append("audio", blob, "recording.wav");
     }
+    formData.append("userId", params.userId as string);
 
     const toastId = toast.loading("Analyzing audio...");
     try {
