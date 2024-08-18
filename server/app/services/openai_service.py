@@ -96,8 +96,49 @@ def analyze_text_with_gpt(text):
         }
         
     except Exception as e:
-        raise Exception(f"Error in processing complaint: {str(e)}")
+        raise Exception(f"Error in processing complaint: {str(e)}")  
 
+#def analyze_image(image_file):
+    #try:
+
+        # Upload image and get back URL here --------------------
+        
+         
+    
+        #if not image_url:
+        #    return {
+        #        "category": "N/A",
+        #        "sub_category": "N/A",
+        #        "summary": "No text found in the image.",
+        #        "key_issues": []
+        #    }
+
+        # Analyze text using GPT-4
+        #gpt_response = openai.chat.completions.create(
+        #    model="gpt-4o-mini",
+        #    messages=[
+        #        {"role": "system", "content": "You are an AI that specializes in analyzing customer complaints. Use the extracted text from the image to generate the following details."},
+        #        {"role": "user", "content": f"Extracted text from image: {extracted_text}"}
+        #    ]
+        #)
+        
+        #analysis = gpt_response.choices[0].message.content
+
+        # Clean the data
+        #category_info = extract_category(analysis)
+        #summary = extract_summary(analysis)
+        #key_issues = extract_key_issues(analysis)
+
+        #return {
+        #    "category": category_info["category"],
+        #    "sub_category": category_info["sub_category"],
+        #    "summary": summary,
+        #    "key_issues": key_issues
+        #}
+
+    #except Exception as e:
+        #raise Exception(f"Error in analyzing image: {str(e)}")
+      
 def transcribe_audio(file_path, language="en"):
     # Open the audio file
     with open(file_path, "rb") as audio_file:

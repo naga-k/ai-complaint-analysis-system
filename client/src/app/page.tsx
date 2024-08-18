@@ -3,6 +3,7 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import Header from "@/components/ui/header";
 
 export default function Home() {
   const [input, setInput] = useState<string>("");
@@ -26,6 +27,7 @@ export default function Home() {
       console.error("Error submitting data:", error);
       setStatus("Error submitting data.");
     }
+    setInput("");
   };
 
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -33,6 +35,8 @@ export default function Home() {
   };
 
   return (
+    <>
+    <Header />
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4 py-8">
       <div className="text-center">
         <h1 className="text-4xl md:text-5xl font-bold mb-6 text-[#0e312d]">Send your text complaint</h1>
@@ -52,8 +56,9 @@ export default function Home() {
             Submit
           </Button>
         </form>
-        {status && <p className="mt-4 text-sm text-red-400">{status}</p>}
+        {status && <p className="mt-4 text-sm text-gray-500">{status}</p>}
       </div>
     </div>
+    </>
   );
 }

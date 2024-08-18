@@ -2,6 +2,7 @@
 
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { Button } from '@/components/ui/button';
+import Header from '@/components/ui/header';
 
 export default function ImageInput() {
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -20,7 +21,7 @@ export default function ImageInput() {
     formData.append('image', imageFile);
 
     try {
-      const response = await fetch('url-todo', {
+      const response = await fetch('http://localhost:4000/complaint/analyze_image', {
         method: 'POST',
         body: formData,
       });
@@ -31,6 +32,8 @@ export default function ImageInput() {
       console.error('Error submitting data:', error);
       setStatus('Error submitting data.');
     }
+    setImageFile(null);
+    setImageURL(undefined);
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -42,6 +45,8 @@ export default function ImageInput() {
   };
 
   return (
+    <>
+    <Header />
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4 py-8">
       <div className="text-center">
         <h1 className="text-4xl md:text-5xl font-bold mb-6 text-[#0e312d]">Upload an Image File</h1>
@@ -59,9 +64,10 @@ export default function ImageInput() {
           )}
           <Button type="submit" className="shadow-sm shadow-black w-full text-black bg-[#E9E3A6] hover:bg-[#ded890]">Submit</Button>
         </form>
-        {status && <p className="mt-4 text-sm text-red-400">{status}</p>}
+        {status && <p className="mt-4 text-sm text-gray-500">{status}</p>}
       </div>
     </div>
+    </>
   );
 }
 
