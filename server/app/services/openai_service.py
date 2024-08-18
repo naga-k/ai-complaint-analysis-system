@@ -82,8 +82,18 @@ def analyze_text_with_gpt(text):
         analysis = response.choices[0].message.content
         print(analysis)
         
-        
-        return analysis
+        # Call helper functions to extract required information
+        category_info = extract_category(analysis)
+        summary = extract_summary(analysis)
+        key_issues = extract_key_issues(analysis)
+
+        # Return the output
+        return {
+            "category": category_info["category"],
+            "sub_category": category_info["sub_category"],
+            "summary": summary,
+            "key_issues": key_issues
+        }
         
     except Exception as e:
         raise Exception(f"Error in processing complaint: {str(e)}")  
