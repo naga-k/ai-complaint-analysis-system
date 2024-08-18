@@ -1,21 +1,21 @@
-'use client';
+"use client";
 
-import { useState, ChangeEvent, FormEvent } from 'react';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
+import { useState, ChangeEvent, FormEvent } from "react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function Home() {
-  const [input, setInput] = useState<string>('');
-  const [status, setStatus] = useState<string>('');
+  const [input, setInput] = useState<string>("");
+  const [status, setStatus] = useState<string>("");
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     try {
-      const response = await fetch('url-todo', {
-        method: 'POST',
+      const response = await fetch("url-todo", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ input }),
       });
@@ -23,8 +23,8 @@ export default function Home() {
       const data = await response.json();
       setStatus(data.message);
     } catch (error) {
-      console.error('Error submitting data:', error);
-      setStatus('Error submitting data.');
+      console.error("Error submitting data:", error);
+      setStatus("Error submitting data.");
     }
   };
 
@@ -35,9 +35,16 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4 py-8">
       <div className="text-center">
-        <h1 className=" text-4xl md:text-5xl max-w-lg md:max-w-2xl font-bold mb-6 text-[#0e312d]">Send your complaint for a quick analysis</h1>
-        <h2 className="text-base md:text-lg text-gray-600 mb-8">Please enter your text below and click submit.</h2>
-        <form onSubmit={handleSubmit} className="space-y-4 max-w-md md:max-w-lg mx-auto">
+        <h1 className=" text-4xl md:text-5xl max-w-lg md:max-w-2xl font-bold mb-6 text-[#0e312d]">
+          Send your complaint for a quick analysis
+        </h1>
+        <h2 className="text-base md:text-lg text-gray-600 mb-8">
+          Please enter your text below and click submit.
+        </h2>
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-4 max-w-md md:max-w-lg mx-auto"
+        >
           <Textarea
             value={input}
             onChange={handleChange}
@@ -45,7 +52,12 @@ export default function Home() {
             rows={6}
             className="w-full"
           />
-          <Button type="submit" className="shadow-sm shadow-black w-full text-black bg-[#E9E3A6] hover:bg-[#ded890]">Submit</Button>
+          <Button
+            type="submit"
+            className="shadow-sm shadow-black w-full text-black bg-[#E9E3A6] hover:bg-[#ded890]"
+          >
+            Submit
+          </Button>
         </form>
         {status && <p className="mt-4 text-sm text-red-400">{status}</p>}
       </div>
