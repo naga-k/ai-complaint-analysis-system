@@ -1,20 +1,26 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import toast, { Toaster } from "react-hot-toast";
+import { createClient } from "@/utils/supabase/client";
 
 export default function Login() {
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
-  const [status, setStatus] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+
+  const getSupabaseClient = useCallback(() => {
+    return createClient();
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -22,13 +28,29 @@ export default function Login() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
 
-    setStatus("Login successful!");
-  };
+    try {
+      const supabase = getSupabaseClient();
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: form.email,
+        password: form.password,
+      });
 
-  const handleGoogleLogin = () => {
-    // do auth here too
-    console.log("Google Login");
+      if (error) throw error;
+
+      if (data.user) {
+        toast.success("Login successful!");
+        router.push(`/dashboard/${data.user.id}/text`);
+      } else {
+        throw new Error("User data not found");
+      }
+    } catch (error: any) {
+      console.error("Error:", error);
+      toast.error(error.message || "An error occurred during login.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -66,17 +88,9 @@ export default function Login() {
                 required
               />
             </div>
-            <Button type="submit" className="w-full">
-              Login
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? "Logging in..." : "Login"}
             </Button>
-            {/* <Button
-              variant="outline"
-              className="w-full flex items-center justify-center space-x-2"
-              onClick={handleGoogleLogin}
-            >
-              <FontAwesomeIcon icon={faGoogle} className="text-lg" />
-              <span>Login with Google</span>
-            </Button> */}
           </form>
           <div className="mt-4 text-center text-sm">
             Don&apos;t have an account?{" "}
@@ -84,7 +98,6 @@ export default function Login() {
               Sign up
             </Link>
           </div>
-          {status && <p className="text-sm text-red-400">{status}</p>}
         </div>
       </div>
       <div className="hidden lg:block bg-muted">
@@ -96,6 +109,7 @@ export default function Login() {
           className="h-screen w-full object-cover dark:brightness-[0.2] dark:grayscale"
         />
       </div>
+      <Toaster position="bottom-right" />
     </div>
   );
 }
