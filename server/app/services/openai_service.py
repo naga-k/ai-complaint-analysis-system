@@ -131,18 +131,22 @@ def analyze_images(base64_images):
     return analysis_results
 
 def transcribe_audio(file_path, language="en"):
-    # Open the audio file
-    with open(file_path, "rb") as audio_file:
-        response = openai.audio.transcriptions.create(
-            model="whisper-1",
-            file=audio_file,
-            language=language,
-            response_format="json"
-        )
+    try:
+        # Open the audio file
+        with open(file_path, "rb") as audio_file:
+            response = openai.audio.transcriptions.create(
+                model="whisper-1",
+                file=audio_file,
+                language=language,
+                response_format="json"
+            )
 
-    # Extract and return the text from the response
-    transcript = response.text
-    return transcript.strip()
+        # Extract and return the text from the response
+        transcript = response.text
+        return transcript.strip()
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
 
 def generate_video_description(base64Frames):
     PROMPT_MESSAGES = [
