@@ -30,9 +30,10 @@ USER appuser
 
 # Expose the port the app runs on
 EXPOSE 5000
-
-# Set environment variable for Flask
+ 
+# Set environment variables for Flask
 ENV FLASK_APP=run.py
+ENV FLASK_ENV=development
 
-# Run the application using gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:4000", "run:app"]
+# Run the application using Gunicorn with hot reload enabled
+CMD ["gunicorn", "--bind", "0.0.0.0:4000", "--reload", "run:app"]

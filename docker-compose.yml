@@ -10,9 +10,10 @@ services:
       - ./server:/app
     env_file:
       - ./server/.env
+    environment:
+      - FLASK_ENV=development
     networks:
       - default
-
   client:
     container_name: nextjs_client
     build:
